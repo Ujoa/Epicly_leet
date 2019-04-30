@@ -1,0 +1,47 @@
+class Solution 
+{
+    List<List<Integer>> list;
+    
+    public List<List<Integer>> combinationSum(int[] candidates, int target) 
+    {
+        // initializes the combination resultant
+        list = new ArrayList<>();
+        
+        // sorts the array to speed up calculations
+        Arrays.sort(candidates);
+
+        // finds all combinations
+        backtracking(list , new ArrayList<>(), candidates, target, 0);
+        
+        return list;
+    }
+    
+    public void backtracking(List<List<Integer>> combinations, List<Integer> list, int[] candidates, int target, int index)
+    {      
+        // generate possible moves
+        for(int i = index; i < candidates.length; i++)
+        {      
+            int value = candidates[i];
+            
+            // skip if its impossible to reach target
+            if(value > target)
+                continue;
+            
+            // change state
+            list.add(candidates[i]);
+            
+            // we found a combination
+            if(value == target && !combinations.contains(list))
+                combinations.add(new ArrayList<>(list));
+            
+            // perform recursive descent
+            else if(target > value)
+                backtracking(combinations, list, candidates, target - value, i);
+            
+            // undo state change
+            list.remove(list.size() - 1);
+        }
+    
+        return;
+    }
+}
