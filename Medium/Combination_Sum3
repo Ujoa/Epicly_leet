@@ -1,0 +1,48 @@
+class Solution 
+{
+    List<List<Integer>> list;
+    
+    public List<List<Integer>> combinationSum3(int k, int n)
+    {
+        // initializes the required variables
+        list = new ArrayList<>();
+        
+        int[] array = new int[9];
+        for(int i = 0; i < array.length; i++)
+            array[i] = i+1;
+
+        // finds all combinations
+        backtracking(list , new ArrayList<>(), array, k, n, 0);
+        
+        return list;
+    }
+    
+    public void backtracking(List<List<Integer>> combinations, List<Integer> list, int[] candidates, int amount, int target, int index)
+    {      
+        // generate possible moves
+        for(int i = index; i < 9; i++)
+        {     
+            int value = candidates[i];
+            
+            // skip if its impossible to reach target
+            if(value > target)
+                return;
+            
+            // change state
+            list.add(value);
+            
+            // we found a combination
+            if(target == value && list.size() == amount && !combinations.contains(list))
+                combinations.add(new ArrayList<>(list));
+            
+            // perform recursive descent
+            else if(target > value)
+                backtracking(combinations, list, candidates, amount, target - value, i+1);
+            
+            // undo state change
+            list.remove(list.size() - 1);
+        }
+    
+        return;
+    }
+}
