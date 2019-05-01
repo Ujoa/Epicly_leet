@@ -16,6 +16,6 @@ class Solution
                 rolling_sum += (num/i == i) ? i : (num/i + i);
         }
         
-        return (rolling_sum == num) ? true : false;
+        return rolling_sum == num;
     }
 }
